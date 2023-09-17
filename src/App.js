@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import { Outlet, useRoutes } from 'react-router-dom';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  let routes = useRoutes([
+    {
+      path:'/',
+      element: <div>Home <Outlet></Outlet></div>,
+      children: [
+        {
+          index: true,
+          element:<div>Home Content Area</div>
+        },
+        {
+          path:'/login',
+          element: <div>Login</div>
+        },
+        {
+          path:'/dashboard',
+          element: <div>Dashboard</div>
+        },
+        {
+          path:'/settings',
+          element: <div>Settings</div>
+        },
+        {
+          path:'/register',
+          element: <div>Register</div>
+        },
+      ]
+    },
+   
+  ]);
+ return ( <div className='text-center'>
+      {routes}
+  </div>)
+ 
 }
 
 export default App;
