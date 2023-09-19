@@ -1,31 +1,33 @@
 import { Outlet, useRoutes } from 'react-router-dom';
 import './App.css';
-
+import { DashboardPage, HomeContent, HomePage, LoginPage, RegisterPage, SettingsPage } from './components/globalComponents';
 function App() {
   let routes = useRoutes([
     {
       path:'/',
-      element: <div>Home <Outlet></Outlet></div>,
+      element: <HomePage>
+        <Outlet></Outlet>
+      </HomePage>,
       children: [
         {
           index: true,
-          element:<div>Home Content Area</div>
+          element:<HomeContent></HomeContent>
         },
         {
           path:'/login',
-          element: <div>Login</div>
+          element: <LoginPage></LoginPage>
         },
         {
           path:'/dashboard',
-          element: <div>Dashboard</div>
+          element: <DashboardPage></DashboardPage>
         },
         {
           path:'/settings',
-          element: <div>Settings</div>
+          element: <SettingsPage></SettingsPage>
         },
         {
           path:'/register',
-          element: <div>Register</div>
+          element: <RegisterPage></RegisterPage>
         },
       ]
     },
