@@ -1,5 +1,41 @@
-import { Link, Outlet } from "react-router-dom"
+import {  NavLink, Outlet, useNavigate } from "react-router-dom"
 import AuthConsumer, { AuthProvider } from "./auth"
+
+
+
+export const HomeContent= ()=>{
+    return (
+        <div>
+            Home Page Contents
+        </div>
+    )
+}
+
+export const Nav= ()=>{
+    function ActiveLink(props){
+        return <NavLink
+        style={({isActive})=>{
+            return {
+                color: isActive ? 'black' : ''
+            }
+        }}
+        {...props}
+        
+        />
+            
+        
+    }
+    
+    return (
+        <nav className="flex justify-center gap-3 py-2 my-4 bg-indigo-500 text-gray-50">
+            <ActiveLink to={'/'}>Home</ActiveLink>
+            <ActiveLink to={'/login'}>Login</ActiveLink>
+            <ActiveLink to={'/register'}>Register</ActiveLink>
+            <ActiveLink to={'/settings'}>Settings</ActiveLink>
+            <ActiveLink to={'/dashboard'}>Dashboard</ActiveLink>
+        </nav>
+    )
+}
 
 export const HomePage= ()=>{
     const auth = AuthConsumer()
@@ -15,38 +51,19 @@ export const HomePage= ()=>{
         </main>
     )
 }
-
-export const HomeContent= ()=>{
-    return (
-        <div>
-            Home Page Contents
-        </div>
-    )
-}
-
-export const Nav= ()=>{
-    return (
-        <nav className="flex justify-center gap-3 py-2 my-4 bg-indigo-500 text-gray-50">
-            <Link to={'/'}>Home</Link>
-            <Link to={'/login'}>Login</Link>
-            <Link to={'/register'}>Register</Link>
-            <Link to={'/settings'}>Settings</Link>
-            <Link to={'/dashboard'}>Dashboard</Link>
-        </nav>
-    )
-}
-
 export const LoginPage= ()=>{
     const [authed, dispatch] = AuthConsumer();
+    let navigate = useNavigate()
     console.log(authed);
     return (
         <div>
             <h1>This is Login Page</h1>
 
             <button className="px-5 bg-indigo-500 border rounded text-gray-50"
-            onClick={()=> (
-                dispatch({type:'login'})
-            )}
+            onClick={()=> {
+                dispatch({type:'login'});
+                navigate('/dashboard', {replace:true});
+            }}
             >
                 Login
             </button>
@@ -63,15 +80,17 @@ export const RegisterPage= ()=>{
 }
 export const DashboardPage= ()=>{
     const [authed, dispatch] = AuthConsumer();
+    let navigate = useNavigate();
     
     return (
         <div>
             this is Dashboard Page
             <br></br>
             <button className="px-5 bg-indigo-500 border rounded text-gray-50 "
-            onClick={()=>(
+            onClick={()=>{
             dispatch({type:'logout'})
-                )}
+            navigate('/login', {replace:true})
+            }}
             > 
                 Logout
             </button>
