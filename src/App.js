@@ -1,6 +1,6 @@
 import { Outlet, useRoutes } from 'react-router-dom';
 import './App.css';
-import { DashboardPage, HomeContent, HomePage, LoginPage, RegisterPage, SettingsPage } from './components/globalComponents';
+import { DashboardPage, HomeContent, HomePage, LoginPage, RegisterPage, RequiredAuth, SettingsPage } from './components/globalComponents';
 function App() {
   let routes = useRoutes([
     {
@@ -19,11 +19,11 @@ function App() {
         },
         {
           path:'/dashboard',
-          element: <DashboardPage></DashboardPage>
+          element: <RequiredAuth><DashboardPage></DashboardPage></RequiredAuth>
         },
         {
           path:'/settings',
-          element: <SettingsPage></SettingsPage>
+          element: <RequiredAuth><SettingsPage></SettingsPage></RequiredAuth>
         },
         {
           path:'/register',

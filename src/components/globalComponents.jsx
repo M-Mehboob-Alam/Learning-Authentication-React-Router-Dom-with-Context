@@ -1,4 +1,4 @@
-import {  NavLink, Outlet, useNavigate } from "react-router-dom"
+import {  NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom"
 import AuthConsumer, { AuthProvider } from "./auth"
 
 
@@ -12,6 +12,7 @@ export const HomeContent= ()=>{
 }
 
 export const Nav= ()=>{
+    const [{auth}] = AuthConsumer()
     function ActiveLink(props){
         return <NavLink
         style={({isActive})=>{
@@ -31,8 +32,15 @@ export const Nav= ()=>{
             <ActiveLink to={'/'}>Home</ActiveLink>
             <ActiveLink to={'/login'}>Login</ActiveLink>
             <ActiveLink to={'/register'}>Register</ActiveLink>
-            <ActiveLink to={'/settings'}>Settings</ActiveLink>
+            {
+                auth ? (
+                    <>
+                     <ActiveLink to={'/settings'}>Settings</ActiveLink>
             <ActiveLink to={'/dashboard'}>Dashboard</ActiveLink>
+                    </>
+                ): <></>
+            }
+           
         </nav>
     )
 }
@@ -103,5 +111,15 @@ export const SettingsPage= ()=>{
         <div>
             Settings Page
         </div>
+    )
+}
+
+export function RequiredAuth({children}){
+    const [authed] = AuthConsumer()
+    const location = useLocation()
+    return authed.auth === true ? (
+        children
+    ) : (
+        <Navigate to={'/login'} replace state={{path:location.pathname}}></Navigate>
     )
 }
