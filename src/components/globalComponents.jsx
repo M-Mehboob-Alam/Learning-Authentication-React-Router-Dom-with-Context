@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom"
-import AuthConsumer from "./auth"
+import AuthConsumer, { AuthProvider } from "./auth"
 
 export const HomePage= ()=>{
     const auth = AuthConsumer()
@@ -37,9 +37,19 @@ export const Nav= ()=>{
 }
 
 export const LoginPage= ()=>{
+    const [authed, dispatch] = AuthConsumer();
+    console.log(authed);
     return (
         <div>
-            Login Page
+            <h1>This is Login Page</h1>
+
+            <button className="px-5 bg-indigo-500 border rounded text-gray-50"
+            onClick={()=> (
+                dispatch({type:'login'})
+            )}
+            >
+                Login
+            </button>
         </div>
     )
 }
@@ -52,9 +62,20 @@ export const RegisterPage= ()=>{
     )
 }
 export const DashboardPage= ()=>{
+    const [authed, dispatch] = AuthConsumer();
+    
     return (
         <div>
-            Dashboard Page
+            this is Dashboard Page
+            <br></br>
+            <button className="px-5 bg-indigo-500 border rounded text-gray-50 "
+            onClick={()=>(
+            dispatch({type:'logout'})
+                )}
+            > 
+                Logout
+            </button>
+            
         </div>
     )
 }

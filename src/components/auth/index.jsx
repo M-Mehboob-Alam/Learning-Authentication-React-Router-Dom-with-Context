@@ -1,12 +1,25 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useReducer } from "react";
 // creating store 
 
 const initialState = {auth:false}
 
 const authContext = createContext(initialState);
 
+export function reducer(state, action){
+    switch(action.type){
+       case 'login':
+        return {auth:true};
+       case 'logout':
+        return {auth:false};
+        default:
+            throw new Error();
+    }
+
+}
+
 export function AuthProvider({children}){
-    return <authContext.Provider value={initialState}>{children}</authContext.Provider>
+   const [authed, dispatch]= useReducer( reducer,initialState);
+    return <authContext.Provider value={[authed, dispatch]}>{children}</authContext.Provider>
 }
 export default function AuthConsumer(){
     return useContext(authContext)
